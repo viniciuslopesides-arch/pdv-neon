@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Meu PDV Neon</title>
+    <style>
+        /* CSS: Deixando com cara de sistema de caixa */
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .caixa {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #00ff88;
+            width: 400px;
+        }
+
+        .produtos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #00ff88;
+            color: #121212;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: #00cc6e;
+        }
+
+        .pagamento {
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .total-destaque {
+            color: #00ff88;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="caixa">
+        <h1>PDV Euros FC</h1>
+        <div class="produtos">
+            <button onclick="adicionar(35)">Camisa - R$ 35</button>
+            <button onclick="adicionar(250)">Chuteira - R$ 250</button>
+            <button onclick="adicionar(15)">Meião - R$ 15</button>
+            <button onclick="adicionar(180)">Bola - R$ 180</button>
+        </div>
+
+        <div class="total-area">
+            <h3>Total da Venda: <span class="total-destaque" id="totalExibido">R$ 0.00</span></h3>
+        </div>
+
+        <div class="pagamento">
+            <label>Valor Pago pelo Cliente:</label><br>
+            <input type="number" id="valorPago" placeholder="Quanto o cliente deu?">
+            <button onclick="finalizarVenda()" style="width: 100%; background: #ffaa00;">Finalizar e Calcular
+                Troco</button>
+        </div>
+
+        <h3 id="resultadoTroco"></h3>
+    </div>
+
+    <script>
+        // LÓGICA DO PDV
+        let totalVenda = 0; // Variável global para somar tudo
+
+        // Função para somar produtos (O "C" do CRUD: Criar valor)
+        function adicionar(preco) {
+            totalVenda += preco; // Igual no Python: total = total + preco
+            document.getElementById("totalExibido").innerText = "R$ " + totalVenda.toFixed(2);
+        }
+
+        // Função para calcular o Pagamento e Troco
+        function finalizarVenda() {
+            let pago = parseFloat(document.getElementById("valorPago").value);
+
+            if (pago < totalVenda) {
+                alert("Valor insuficiente! O cliente precisa de mais dinheiro.");
+            } else {
+                // Variável Troco (O que você pediu)
+                let troco = pago - totalVenda;
+
+                document.getElementById("resultadoTroco").innerHTML =
+                    "Venda Finalizada!<br>Troco: <span style='color:#00ff88'>R$ " + troco.toFixed(2) + "</span>";
+
+                // Resetando para a próxima venda
+                totalVenda = 0;
+                document.getElementById("totalExibido").innerText = "R$ 0.00";
+            }
+        }
+    </script>
+</body>
+
+</html>
